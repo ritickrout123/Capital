@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { useState, useMemo } from "react";
 import { Search } from "lucide-react";
 import { Reveal } from "@/components/Reveal";
@@ -25,8 +25,20 @@ export const Route = createFileRoute("/services")({
       { property: "og:description", content: "Loans, legal, insurance and documentation services from India's trusted advisors." },
     ],
   }),
-  component: ServicesPage,
+  component: ServicesLayout,
 });
+
+// Layout wrapper: renders the list page OR the child route ($slug detail)
+function ServicesLayout() {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const isDetailPage = pathname !== "/services";
+
+  if (isDetailPage) {
+    return <Outlet />;
+  }
+
+  return <ServicesPage />;
+}
 
 function ServicesPage() {
   const { t } = useT();

@@ -20,12 +20,21 @@ export interface ServiceEntry {
 
 export type UpsertServiceInput = Omit<ServiceEntry, "id">;
 
+// Ensure documents is always a parsed string[] regardless of how the DB driver returns JSONB
+function normalizeDocuments(row: ServiceEntry): ServiceEntry {
+  if (typeof row.documents === "string") {
+    try { row.documents = JSON.parse(row.documents); } catch { row.documents = []; }
+  }
+  if (!Array.isArray(row.documents)) row.documents = [];
+  return row;
+}
+
 // Get all services (Public & Admin usage)
 export const getServices = createServerFn({ method: "GET" }).handler(async () => {
   const result = await sql<ServiceEntry[]>`
     SELECT * FROM services ORDER BY category, name
   `;
-  return result;
+  return result.map(normalizeDocuments);
 });
 
 // Get a single service by slug (Public usage)
@@ -35,7 +44,7 @@ export const getServiceBySlug = createServerFn({ method: "GET" })
     const result = await sql<ServiceEntry[]>`
       SELECT * FROM services WHERE slug = ${data.slug} LIMIT 1
     `;
-    return result[0] || null;
+    return result[0] ? normalizeDocuments(result[0]) : null;
   });
 
 // Upsert a service (Admin usage)

@@ -1,4 +1,4 @@
-import { createFileRoute, Outlet, redirect, useRouter } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useRouter, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 
@@ -8,7 +8,9 @@ export const Route = createFileRoute("/admin")({
 
 function AdminLayout() {
   const router = useRouter();
-  // Read token immediately on mount to avoid loading flash after login
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+
+  // Read token synchronously so there's no flash on first render
   const [token, setToken] = useState<string | null>(() => {
     if (typeof window !== "undefined") {
       return localStorage.getItem("admin_token");
@@ -20,14 +22,13 @@ function AdminLayout() {
     const checkToken = () => {
       const currentToken = localStorage.getItem("admin_token");
       setToken(currentToken);
-      if (!currentToken && window.location.pathname !== "/admin/login") {
+      if (!currentToken && pathname !== "/admin/login") {
         router.navigate({ to: "/admin/login" });
       }
     };
 
     checkToken();
-    
-    // Listen for login/logout in other tabs or via custom events
+
     window.addEventListener("storage", checkToken);
     window.addEventListener("admin_auth_change", checkToken);
 
@@ -35,20 +36,29 @@ function AdminLayout() {
       window.removeEventListener("storage", checkToken);
       window.removeEventListener("admin_auth_change", checkToken);
     };
-  }, [router]);
-
-  const isLoginPage = typeof window !== "undefined" && window.location.pathname === "/admin/login";
+  }, [router, pathname]);
 
   const handleLogout = () => {
     localStorage.removeItem("admin_token");
     setToken(null);
     router.navigate({ to: "/admin/login" });
-    // Notify other components
     window.dispatchEvent(new Event("admin_auth_change"));
   };
 
+  // Use router state pathname — never stale, unlike window.location
+  const isLoginPage = pathname === "/admin/login";
+
   if (isLoginPage) {
-    return <main><Outlet /></main>;
+    return (
+      <main>
+        <Outlet />
+      </main>
+    );
+  }
+
+  // Not logged in yet — redirect is in-flight, render nothing to avoid flash
+  if (!token) {
+    return null;
   }
 
   return (
@@ -62,15 +72,15 @@ function AdminLayout() {
 
           {/* Center Section: Navigation */}
           <nav className="hidden flex-1 items-center justify-center gap-4 md:flex lg:gap-8">
-            <Link 
-              to="/admin/dashboard" 
+            <Link
+              to="/admin/dashboard"
               className="group relative py-1 text-xs font-bold uppercase tracking-widest text-muted-foreground transition-colors hover:text-primary [&.active]:text-primary"
             >
               Content
               <span className="absolute -bottom-1 left-0 h-0.5 w-0 origin-left bg-primary transition-all group-[.active]:w-full" />
             </Link>
-            <Link 
-              to="/admin/services" 
+            <Link
+              to="/admin/services"
               className="group relative py-1 text-xs font-bold uppercase tracking-widest text-muted-foreground transition-colors hover:text-primary [&.active]:text-primary"
             >
               Services
@@ -80,14 +90,12 @@ function AdminLayout() {
 
           {/* Right Section: Actions */}
           <div className="flex w-1/4 items-center justify-end">
-            {token && (
-              <button
-                onClick={handleLogout}
-                className="rounded-full bg-destructive/10 px-4 py-1.5 text-[10px] font-black uppercase tracking-widest text-destructive transition-all hover:bg-destructive hover:text-white"
-              >
-                Logout
-              </button>
-            )}
+            <button
+              onClick={handleLogout}
+              className="rounded-full bg-destructive/10 px-4 py-1.5 text-[10px] font-black uppercase tracking-widest text-destructive transition-all hover:bg-destructive hover:text-white"
+            >
+              Logout
+            </button>
           </div>
         </div>
       </header>

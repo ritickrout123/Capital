@@ -13,7 +13,7 @@ export function SiteHeader() {
   const links = [
     { to: "/", label: t.header.home },
     { to: "/services", label: t.header.services },
-    { to: "/learn/fixed-income", label: t.header.learn },
+    { to: "/learn", label: t.header.learn },
     { to: "/about", label: t.header.about },
     { to: "/contact", label: t.header.contact },
   ];

@@ -21,8 +21,10 @@ function AdminLogin() {
       const res = await adminLogin({ data: { password } });
       if (res.token) {
         localStorage.setItem("admin_token", res.token);
-        // Notify the layout immediately
+        // Notify the layout and force a full router invalidation so
+        // AdminLayout re-reads localStorage with the new token
         window.dispatchEvent(new Event("admin_auth_change"));
+        await router.invalidate();
         router.navigate({ to: "/admin/dashboard" });
       }
     } catch (err: any) {

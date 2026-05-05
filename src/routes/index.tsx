@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight, Linkedin, Twitter, Mail, HandshakeIcon, User
 import { Button } from "@/components/ui/button";
 import { LeadForm } from "@/components/LeadForm";
 import { ServiceCard } from "@/components/ServiceCard";
-import { EMICalculator } from "@/components/EMICalculator";
+import { HomeCalculator } from "@/components/HomeCalculator";
 import { Reveal } from "@/components/Reveal";
 import { categoryMeta, services, type ServiceCategory } from "@/data/services";
 import { TeamSlider } from "@/components/TeamSlider";
@@ -381,20 +381,23 @@ function Component() {
         </div>
       </section> */}
 
-      {/* EMI Calculator Section */}
+      {/* Calculators Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
           <Reveal>
-            <div className="max-w-4xl mx-auto">
-              <div className="text-center mb-12">
+            <div className="max-w-5xl mx-auto">
+              <div className="text-center mb-10">
+                <span className="inline-flex items-center gap-2 rounded-full bg-primary-soft px-3 py-1 text-xs font-semibold text-primary mb-4">
+                  Smart Tools
+                </span>
                 <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
                   {t.home.toolsEy}
                 </h2>
-                <p className="text-lg text-muted-foreground">
+                <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                   {t.home.toolsP}
                 </p>
               </div>
-              <EMICalculator />
+              <HomeCalculator />
             </div>
           </Reveal>
         </div>

@@ -42,14 +42,21 @@
   --color-surface-strong: var(--surface-strong);
 
   --shadow-soft: 0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 16px rgba(15, 23, 42, 0.06);
-  --shadow-elevated: 0 8px 24px -8px rgba(27, 94, 32, 0.22), 0 16px 48px -12px rgba(15, 23, 42, 0.12);
-  --shadow-glow: 0 24px 60px -20px rgba(27, 94, 32, 0.45);
+  --shadow-elevated: 0 8px 24px -8px rgba(26, 92, 26, 0.25), 0 16px 48px -12px rgba(15, 23, 42, 0.12);
+  --shadow-glow: 0 24px 60px -20px rgba(26, 92, 26, 0.50);
 
-  /* Primary = logo orange #C85500 | Accent = logo dark green #1B5E20 */
-  --gradient-primary: linear-gradient(135deg, #C85500 0%, #A34400 100%);
-  --gradient-accent: linear-gradient(135deg, #1B5E20 0%, #145218 100%);
-  --gradient-hero: radial-gradient(ellipse at top right, oklch(0.95 0.06 55 / 0.55), transparent 60%),
-                   radial-gradient(ellipse at bottom left, oklch(0.93 0.05 145 / 0.35), transparent 55%);
+  /*
+   * Brand palette — extracted from Goswami Capital logo:
+   *   Primary   = orange  #C87000 → #C04800
+   *   Accent    = dark green #1A5C1A
+   *   Hero bg   = light yellow-green #F0F8DC → #E4F4C0
+   */
+  --gradient-primary: linear-gradient(135deg, #D47000 0%, #C04800 100%);
+  --gradient-accent:  linear-gradient(135deg, #2A7A1A 0%, #1A5C1A 100%);
+  --gradient-hero:
+    radial-gradient(ellipse 80% 60% at 70% 10%, #E8F8C0 0%, transparent 65%),
+    radial-gradient(ellipse 60% 50% at 10% 90%, #D4F0A0 0%, transparent 60%),
+    linear-gradient(160deg, #F8FCF0 0%, #EEF8DC 100%);
 
   --animate-fade-in: fade-in 0.6s ease-out both;
   --animate-fade-up: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
@@ -82,69 +89,75 @@
 :root {
   --radius: 0.75rem;
 
-  /* Brand: Goswami Capital — Orange #C85500 + Dark Green #1B5E20 */
-  --background: oklch(0.985 0.003 90);          /* warm off-white */
-  --foreground: oklch(0.15 0.02 145);           /* near-black with green tint */
-  --surface: oklch(1 0 0);
-  --surface-strong: oklch(0.965 0.012 130);     /* very light green tint */
+  /*
+   * Goswami Capital brand colours
+   * Orange  #C87000 / #D47000  →  primary (buttons, active links, CTAs)
+   * Green   #1A5C1A / #2A7A1A  →  accent  (CAPITAL banner, icons, success)
+   * Bg      #F5FAE8             →  warm light yellow-green (logo background)
+   */
 
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.15 0.02 145);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.15 0.02 145);
+  --background: #F8FCF2;                        /* logo's light yellow-green bg */
+  --foreground: #1A2A14;                        /* very dark green-black */
+  --surface: #FFFFFF;
+  --surface-strong: #EEF8DC;                   /* slightly deeper logo bg tint */
+
+  --card: #FFFFFF;
+  --card-foreground: #1A2A14;
+  --popover: #FFFFFF;
+  --popover-foreground: #1A2A14;
 
   /* Primary = logo orange */
-  --primary: oklch(0.55 0.18 42);              /* #C85500 orange */
-  --primary-foreground: oklch(0.99 0.005 60);
-  --primary-soft: oklch(0.95 0.06 55);
+  --primary: #C87000;
+  --primary-foreground: #FFFFFF;
+  --primary-soft: #FDF0DC;
 
   /* Accent = logo dark green */
-  --accent: oklch(0.38 0.10 145);              /* #1B5E20 dark green */
-  --accent-foreground: oklch(0.99 0.005 145);
-  --accent-soft: oklch(0.94 0.04 145);
+  --accent: #1A5C1A;
+  --accent-foreground: #FFFFFF;
+  --accent-soft: #E0F2D8;
 
-  --secondary: oklch(0.96 0.008 55);
-  --secondary-foreground: oklch(0.25 0.05 55);
+  --secondary: #F0F8DC;
+  --secondary-foreground: #2A4A1A;
 
-  --muted: oklch(0.96 0.005 145);
-  --muted-foreground: oklch(0.44 0.02 145);    /* WCAG AA on bg + surface-strong */
+  --muted: #EEF5E4;
+  --muted-foreground: #4A6040;                 /* WCAG AA on bg */
 
-  --destructive: oklch(0.6 0.22 27);
-  --destructive-foreground: oklch(0.99 0.005 27);
-  --success: oklch(0.52 0.14 145);
-  --success-foreground: oklch(0.99 0.005 145);
+  --destructive: #C0392B;
+  --destructive-foreground: #FFFFFF;
+  --success: #1A5C1A;
+  --success-foreground: #FFFFFF;
 
-  --border: oklch(0.90 0.012 130);
-  --input: oklch(0.90 0.012 130);
-  --ring: oklch(0.55 0.18 42);
+  --border: #C8DCA8;
+  --input: #C8DCA8;
+  --ring: #C87000;
 }
 
 .dark {
-  --background: oklch(0.14 0.02 145);
-  --foreground: oklch(0.96 0.008 130);
-  --surface: oklch(0.18 0.02 145);
-  --surface-strong: oklch(0.22 0.03 145);
-  --card: oklch(0.18 0.02 145);
-  --card-foreground: oklch(0.96 0.008 130);
-  --popover: oklch(0.18 0.02 145);
-  --popover-foreground: oklch(0.96 0.008 130);
-  --primary: oklch(0.68 0.16 42);              /* lighter orange for dark bg */
-  --primary-foreground: oklch(0.10 0.02 145);
-  --primary-soft: oklch(0.28 0.08 42);
-  --accent: oklch(0.60 0.14 145);              /* lighter green for dark bg */
-  --accent-foreground: oklch(0.10 0.02 145);
-  --accent-soft: oklch(0.26 0.07 145);
-  --secondary: oklch(0.24 0.02 145);
-  --secondary-foreground: oklch(0.96 0.008 130);
-  --muted: oklch(0.24 0.02 145);
-  --muted-foreground: oklch(0.68 0.02 145);
-  --destructive: oklch(0.65 0.2 27);
-  --destructive-foreground: oklch(0.99 0.005 27);
-  --success: oklch(0.65 0.14 145);
-  --success-foreground: oklch(0.10 0.02 145);
-  --border: oklch(0.28 0.025 145);
-  --input: oklch(0.28 0.025 145);
-  --ring: oklch(0.68 0.16 42);
+  --background: #0E1A0A;
+  --foreground: #E8F5D8;
+  --surface: #142010;
+  --surface-strong: #1C2E16;
+  --card: #142010;
+  --card-foreground: #E8F5D8;
+  --popover: #142010;
+  --popover-foreground: #E8F5D8;
+  --primary: #E08820;                          /* brighter orange on dark */
+  --primary-foreground: #0E1A0A;
+  --primary-soft: #3A2008;
+  --accent: #4AAA3A;                           /* brighter green on dark */
+  --accent-foreground: #0E1A0A;
+  --accent-soft: #1A3A14;
+  --secondary: #1C2E16;
+  --secondary-foreground: #E8F5D8;
+  --muted: #1C2E16;
+  --muted-foreground: #7AAA60;
+  --destructive: #E05040;
+  --destructive-foreground: #FFFFFF;
+  --success: #4AAA3A;
+  --success-foreground: #0E1A0A;
+  --border: #2A4020;
+  --input: #2A4020;
+  --ring: #E08820;
 }
 
 @layer base {
@@ -165,6 +178,12 @@
 @layer utilities {
   .container-tight { @apply mx-auto w-full max-w-6xl px-5 sm:px-6 lg:px-8; }
   .container-wide  { @apply mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8; }
+  /* Hide scrollbar while keeping scroll functionality */
+  .scrollbar-none {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .scrollbar-none::-webkit-scrollbar { display: none; }
   .text-gradient-primary {
     background: var(--gradient-primary);
     -webkit-background-clip: text;

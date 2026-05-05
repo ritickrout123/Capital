@@ -34,7 +34,7 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
-      { name: "theme-color", content: "#1B5E20" },
+      { name: "theme-color", content: "#1A5C1A" },
       { name: "format-detection", content: "telephone=yes" },
       { title: "Goswami Capital — Trusted Financial & Legal Partner in India" },
       {
@@ -70,9 +70,11 @@ export const Route = createRootRoute({
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+      { rel: "icon", type: "image/png", href: "/logo.png", sizes: "any" },
+      { rel: "apple-touch-icon", href: "/logo.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      // Reduced weights (was 4+4=8 → now 2+2=4) cuts ~120KB. display=swap prevents FOIT.
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@600;700&display=swap",

@@ -18,7 +18,7 @@ export function SiteFooter() {
           <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
             <li><Link to="/about" className="hover:text-primary">{t.footer.aboutUs}</Link></li>
             <li><Link to="/services" className="hover:text-primary">{t.footer.services}</Link></li>
-            <li><Link to="/learn/fixed-income" className="hover:text-primary">{t.footer.learnFI}</Link></li>
+            <li><Link to="/learn" className="hover:text-primary">{t.footer.learnFI}</Link></li>
             <li><Link to="/contact" className="hover:text-primary">{t.footer.contact}</Link></li>
           </ul>
         </div>

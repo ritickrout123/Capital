@@ -14,6 +14,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as LearnRouteImport } from './routes/learn'
 import { Route as DisclaimerRouteImport } from './routes/disclaimer'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AdminRouteImport } from './routes/admin'
@@ -50,6 +51,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
   path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LearnRoute = LearnRouteImport.update({
+  id: '/learn',
+  path: '/learn',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DisclaimerRoute = DisclaimerRouteImport.update({
   id: '/disclaimer',
   path: '/disclaimer',
@@ -81,9 +87,9 @@ const ServicesSlugRoute = ServicesSlugRouteImport.update({
   getParentRoute: () => ServicesRoute,
 } as any)
 const LearnFixedIncomeRoute = LearnFixedIncomeRouteImport.update({
-  id: '/learn/fixed-income',
-  path: '/learn/fixed-income',
-  getParentRoute: () => rootRouteImport,
+  id: '/fixed-income',
+  path: '/fixed-income',
+  getParentRoute: () => LearnRoute,
 } as any)
 const AdminServicesRoute = AdminServicesRouteImport.update({
   id: '/services',
@@ -107,6 +113,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/contact': typeof ContactRoute
   '/disclaimer': typeof DisclaimerRoute
+  '/learn': typeof LearnRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/services': typeof ServicesRouteWithChildren
@@ -124,6 +131,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRouteWithChildren
   '/contact': typeof ContactRoute
   '/disclaimer': typeof DisclaimerRoute
+  '/learn': typeof LearnRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/services': typeof ServicesRouteWithChildren
@@ -142,6 +150,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/contact': typeof ContactRoute
   '/disclaimer': typeof DisclaimerRoute
+  '/learn': typeof LearnRouteWithChildren
   '/privacy': typeof PrivacyRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/services': typeof ServicesRouteWithChildren
@@ -161,6 +170,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/contact'
     | '/disclaimer'
+    | '/learn'
     | '/privacy'
     | '/robots.txt'
     | '/services'
@@ -178,6 +188,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/contact'
     | '/disclaimer'
+    | '/learn'
     | '/privacy'
     | '/robots.txt'
     | '/services'
@@ -195,6 +206,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/contact'
     | '/disclaimer'
+    | '/learn'
     | '/privacy'
     | '/robots.txt'
     | '/services'
@@ -213,12 +225,12 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   ContactRoute: typeof ContactRoute
   DisclaimerRoute: typeof DisclaimerRoute
+  LearnRoute: typeof LearnRouteWithChildren
   PrivacyRoute: typeof PrivacyRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   ServicesRoute: typeof ServicesRouteWithChildren
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
-  LearnFixedIncomeRoute: typeof LearnFixedIncomeRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -256,6 +268,13 @@ declare module '@tanstack/react-router' {
       path: '/privacy'
       fullPath: '/privacy'
       preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/learn': {
+      id: '/learn'
+      path: '/learn'
+      fullPath: '/learn'
+      preLoaderRoute: typeof LearnRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/disclaimer': {
@@ -302,10 +321,10 @@ declare module '@tanstack/react-router' {
     }
     '/learn/fixed-income': {
       id: '/learn/fixed-income'
-      path: '/learn/fixed-income'
+      path: '/fixed-income'
       fullPath: '/learn/fixed-income'
       preLoaderRoute: typeof LearnFixedIncomeRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof LearnRoute
     }
     '/admin/services': {
       id: '/admin/services'
@@ -345,6 +364,16 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface LearnRouteChildren {
+  LearnFixedIncomeRoute: typeof LearnFixedIncomeRoute
+}
+
+const LearnRouteChildren: LearnRouteChildren = {
+  LearnFixedIncomeRoute: LearnFixedIncomeRoute,
+}
+
+const LearnRouteWithChildren = LearnRoute._addFileChildren(LearnRouteChildren)
+
 interface ServicesRouteChildren {
   ServicesSlugRoute: typeof ServicesSlugRoute
 }
@@ -363,12 +392,12 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   ContactRoute: ContactRoute,
   DisclaimerRoute: DisclaimerRoute,
+  LearnRoute: LearnRouteWithChildren,
   PrivacyRoute: PrivacyRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
   ServicesRoute: ServicesRouteWithChildren,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
-  LearnFixedIncomeRoute: LearnFixedIncomeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
